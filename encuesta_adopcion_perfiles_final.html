@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Adopción Canina 🐕</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF5E6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #E67E22;
+            margin-top: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #FFF5E6;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #E67E22;
+            margin: 20px 0;
+        }
+        .options {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .options label {
+            display: block;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+        button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            background-color: #FFA500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #E67E22;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #FF8C00;
+        }
+        .emoji {
+            font-size: 3rem;
+            margin: 20px 0;
+        }
+        .social-links img {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .social-links a {
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .social-links a:hover {
+            color: #FF8C00;
+            transform: scale(1.1);
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="survey">
+        <h1>🐾 Encuesta de Adopción Canina 🐾</h1>
+        <div id="question-container">
+            <!-- Las preguntas se cargarán dinámicamente aquí -->
+        </div>
+        <button id="next-button" onclick="nextQuestion()">Siguiente ➡️</button>
+    </div>
+
+    <div class="container hidden" id="results">
+        <h2>¡Gracias por completar la encuesta! 🐕</h2>
+        <p class="result" id="profile-result"></p>
+        <div class="emoji" id="profile-emoji"></div>
+        <h2>Síguenos en nuestras redes sociales:</h2>
+        <div class="social-links">
+            <a href="https://refugiobuenoschicos.com" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Sitio Web"> Sitio Web
+            </a>
+            <a href="https://www.instagram.com/refugiobuenoschicos/" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"> Instagram
+            </a>
+            <a href="https://www.facebook.com/refugiobuenoschicos" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"> Facebook
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: "1️⃣ ¿Qué tamaño prefieres?",
+                options: [
+                    { answer: "🐶 Chico", profiles: [2, 5] },
+                    { answer: "🐕 Mediano", profiles: [1, 2, 4] },
+                    { answer: "🦮 Grande", profiles: [1, 3] }
+                ]
+            },
+            {
+                text: "2️⃣ ¿Qué tipo de temperamento se adapta mejor a ti?",
+                options: [
+                    { answer: "⚡ Juguetón/Energético", profiles: [1] },
+                    { answer: "😌 Tranquilo", profiles: [2] },
+                    { answer: "🤔 Reservado", profiles: [3] },
+                    { answer: "❤️ Amigable", profiles: [4] },
+                    { answer: "🩵 Sensible", profiles: [5] }
+                ]
+            },
+            {
+                text: "3️⃣ ¿En qué tipo de vivienda vives?",
+                options: [
+                    { answer: "🏢 Departamento", profiles: [2, 5] },
+                    { answer: "🏠 Casa chica", profiles: [2, 5] },
+                    { answer: "🏡 Casa mediana", profiles: [1, 3] },
+                    { answer: "🌳 Casa grande", profiles: [1, 4] }
+                ]
+            },
+            {
+                text: "4️⃣ ¿Cuánto tiempo pasas en casa?",
+                options: [
+                    { answer: "🕒 Todo el día", profiles: [3, 5] },
+                    { answer: "⏳ Casi todo el día", profiles: [2, 5] },
+                    { answer: "🕔 Medio día", profiles: [1, 4] },
+                    { answer: "🌆 Salgo todo el día", profiles: [4] }
+                ]
+            },
+            {
+                text: "5️⃣ ¿Con qué frecuencia saldrán a pasear?",
+                options: [
+                    { answer: "🚶 Varias veces al día", profiles: [1, 4] },
+                    { answer: "🏃 Una vez al día", profiles: [4, 5] },
+                    { answer: "🎉 Fines de semana", profiles: [2, 3] },
+                    { answer: "📅 Un par de días a la semana", profiles: [2, 5] }
+                ]
+            },
+        ];
+
+        const profiles = {
+            1: { name: "Compañero Aventurero", emoji: "🌄", description: "Para personas activas que disfrutan del ejercicio y la naturaleza." },
+            2: { name: "Amigo Relajado", emoji: "🛋️", description: "Perfecto para quien busca tranquilidad y compañía en casa." },
+            3: { name: "Corazón Valiente", emoji: "💪", description: "Ideal para quienes desean cuidar perros con necesidades especiales." },
+            4: { name: "Familia Juguetona", emoji: "👨‍👩‍👧‍👦", description: "Perfecto para familias activas con niños." },
+            5: { name: "Primerizo Responsable", emoji: "🎓", description: "Para personas que adoptan por primera vez y buscan un perro fácil de manejar." }
+        };
+
+        let currentQuestionIndex = 0;
+        const profileScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+        function loadQuestion() {
+            const questionContainer = document.getElementById("question-container");
+            questionContainer.innerHTML = ""; // Limpiar contenido anterior
+
+            const question = questions[currentQuestionIndex];
+            const questionElement = document.createElement("div");
+            questionElement.classList.add("question");
+            questionElement.innerText = question.text;
+
+            const optionsElement = document.createElement("div");
+            optionsElement.classList.add("options");
+
+            question.options.forEach(option => {
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = JSON.stringify(option.profiles);
+                checkbox.name = `question-${currentQuestionIndex}`;
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(option.answer));
+                optionsElement.appendChild(label);
+            });
+
+            questionContainer.appendChild(questionElement);
+            questionContainer.appendChild(optionsElement);
+        }
+
+        function nextQuestion() {
+            const selectedOptions = Array.from(
+                document.querySelectorAll(`input[name="question-${currentQuestionIndex}"]:checked`)
+            );
+
+            if (selectedOptions.length === 0) {
+                alert("Por favor selecciona al menos una opción para continuar.");
+                return;
+            }
+
+            selectedOptions.forEach(option => {
+                const profiles = JSON.parse(option.value);
+                profiles.forEach(profile => profileScores[profile]++);
+            });
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById("survey").classList.add("hidden");
+            const resultsContainer = document.getElementById("results");
+            resultsContainer.classList.remove("hidden");
+
+            const highestScore = Math.max(...Object.values(profileScores));
+            const bestProfile = Object.keys(profileScores).find(key => profileScores[key] === highestScore);
+
+            document.getElementById("profile-result").innerText = `Tu perfil ideal es: ${profiles[bestProfile].name}\n${profiles[bestProfile].description}`;
+            document.getElementById("profile-emoji").innerText = profiles[bestProfile].emoji;
+        }
+
+        // Inicializar la encuesta
+        document.addEventListener("DOMContentLoaded", () => {
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
