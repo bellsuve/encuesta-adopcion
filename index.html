@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Conecta con Quien Moverá tu Corazón (y su Cola) 🐕</title>
+    <title>Conecta con Quien Moverá tu Corazón (y su Cola) 🐕</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,12 +55,22 @@
         }
         .result {
             margin-top: 30px;
-            font-size: 1.5rem;
+            font-size: 1.8rem; /* Incremento del tamaño del texto */
             color: #FF8C00;
         }
         .emoji {
             font-size: 3rem;
             margin: 20px 0;
+        }
+        .description {
+            font-size: 1rem;
+            color: #E67E22; /* Naranja */
+        }
+        .dog-names {
+            font-size: 1rem;
+            color: #E67E22; /* Naranja */
+            margin-top: 10px;
+            font-weight: bold;
         }
         .social-links img {
             width: 50px;
@@ -86,7 +96,7 @@
 </head>
 <body>
     <div class="container" id="survey">
-        <h1>🐾 Encuesta de Adopción Canina 🐾</h1>
+        <h1>Conecta con Quien Moverá tu Corazón (y su Cola) 🐾</h1>
         <div id="question-container">
             <!-- Las preguntas se cargarán dinámicamente aquí -->
         </div>
@@ -94,10 +104,10 @@
     </div>
 
     <div class="container hidden" id="results">
-        <h2>¡Gracias por completar la encuesta! 🐕</h2>
         <p class="result" id="profile-result"></p>
         <div class="emoji" id="profile-emoji"></div>
-        <h2>Síguenos en nuestras redes sociales:</h2>
+        <p class="dog-names" id="dog-names"></p>
+        <h2>¡Conócelos en nuestras redes y dales una oportunidad antes de que alguien más los elija!</h2>
         <div class="social-links">
             <a href="https://refugiobuenoschicos.com" target="_blank">
                 <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Sitio Web"> Sitio Web
@@ -109,6 +119,7 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"> Facebook
             </a>
         </div>
+        <p>Su historia comienza contigo. ❤</p>
     </div>
 
     <script>
@@ -161,11 +172,36 @@
         ];
 
         const profiles = {
-            1: { name: "Compañero Aventurero", emoji: "🌄", description: "Para personas activas que disfrutan del ejercicio y la naturaleza." },
-            2: { name: "Amigo Relajado", emoji: "🛋️", description: "Perfecto para quien busca tranquilidad y compañía en casa." },
-            3: { name: "Corazón Valiente", emoji: "💪", description: "Ideal para quienes desean cuidar perros con necesidades especiales." },
-            4: { name: "Familia Juguetona", emoji: "👨‍👩‍👧‍👦", description: "Perfecto para familias activas con niños." },
-            5: { name: "Primerizo Responsable", emoji: "🎓", description: "Para personas que adoptan por primera vez y buscan un perro fácil de manejar." }
+            1: { 
+                name: "<b>Compañero Aventurero</b>", 
+                emoji: "🌄", 
+                description: "<span class='description'>Para personas activas que disfrutan del ejercicio y la naturaleza.</span>", 
+                dogs: "Pirata, Queen, Duncan y otros más"
+            },
+            2: { 
+                name: "<b>Amigo Relajado</b>", 
+                emoji: "🛋️", 
+                description: "<span class='description'>Perfecto para quien busca tranquilidad y compañía en casa.</span>", 
+                dogs: "Nala, Ramiro, Coffee y otros más"
+            },
+            3: { 
+                name: "<b>Corazón Valiente</b>", 
+                emoji: "💪", 
+                description: "<span class='description'>Ideal para quienes desean cuidar perros con necesidades especiales.</span>", 
+                dogs: "Cherry, Sandy, King y otros más"
+            },
+            4: { 
+                name: "<b>Familia Juguetona</b>", 
+                emoji: "👨‍👩‍👧‍👦", 
+                description: "<span class='description'>Perfecto para familias activas con niños.</span>", 
+                dogs: "Boss, Luna, Sabrina y otros más"
+            },
+            5: { 
+                name: "<b>Primerizo Responsable</b>", 
+                emoji: "🎓", 
+                description: "<span class='description'>Para personas que adoptan por primera vez y buscan un perro fácil de manejar.</span>", 
+                dogs: "Luisa, Carla, Karen y otros más"
+            }
         };
 
         let currentQuestionIndex = 0;
@@ -229,8 +265,9 @@
             const highestScore = Math.max(...Object.values(profileScores));
             const bestProfile = Object.keys(profileScores).find(key => profileScores[key] === highestScore);
 
-            document.getElementById("profile-result").innerText = `Tu perfil ideal es: ${profiles[bestProfile].name}\n${profiles[bestProfile].description}`;
+            document.getElementById("profile-result").innerHTML = `<b>Tu perfil ideal es:</b> ${profiles[bestProfile].name}<br>${profiles[bestProfile].description}`;
             document.getElementById("profile-emoji").innerText = profiles[bestProfile].emoji;
+            document.getElementById("dog-names").innerHTML = `<b>Perritos compatibles:</b> ${profiles[bestProfile].dogs}`;
         }
 
         // Inicializar la encuesta
